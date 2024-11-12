@@ -1,6 +1,7 @@
 import numpy as np
 import config
 
+
 class BodyTrajectory:
     def __init__(self, mass, radius, friction, angle):
         self.m = mass
@@ -12,10 +13,24 @@ class BodyTrajectory:
 
     def find_min_initial_velocity(self):
         self.v0_min = np.sqrt(
-            (2 * (self.m * self.g * self.R * (1 - np.cos(self.alpha)) + self.m * self.g * np.sin(self.alpha) * self.mu * self.R * self.alpha)) / self.m
+            (
+                2
+                * (
+                    self.m * self.g * self.R * (1 - np.cos(self.alpha))
+                    + self.m
+                    * self.g
+                    * np.sin(self.alpha)
+                    * self.mu
+                    * self.R
+                    * self.alpha
+                )
+            )
+            / self.m
         )
 
-    def calculate_trajectory(self, initial_distance=3.0, step_size=0.01, t_max=5.0, dt=0.01):
+    def calculate_trajectory(
+        self, initial_distance=3.0, step_size=0.01, t_max=5.0, dt=0.01
+    ):
         if self.v0_min is None:
             self.find_min_initial_velocity()
 
@@ -53,8 +68,8 @@ class BodyTrajectory:
                 last_index = i
                 break
 
-        x_flight = x_flight[:last_index + 1]
-        y_flight = y_flight[:last_index + 1]
+        x_flight = x_flight[: last_index + 1]
+        y_flight = y_flight[: last_index + 1]
 
         x_initial = np.linspace(-initial_distance, 0, 100)
         y_initial = np.zeros_like(x_initial)
@@ -70,4 +85,6 @@ class BodyTrajectory:
     def dv_dtheta(self, theta, v):
         if v <= 0:
             return 0
-        return (-self.g * np.sin(theta) - self.mu * (v**2 / self.R + self.g * np.cos(theta))) / (v + self.mu * self.R)
+        return (
+            -self.g * np.sin(theta) - self.mu * (v**2 / self.R + self.g * np.cos(theta))
+        ) / (v + self.mu * self.R)

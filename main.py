@@ -4,6 +4,7 @@ from simulation.trajectory import BodyTrajectory
 from simulation.animator import animate_trajectory
 from web.interface import render_sidebar, display_information, display_parameters
 
+
 def main():
     st.set_page_config(page_title="Моделирование", page_icon="📘")
 
@@ -92,17 +93,30 @@ def main():
         display_parameters(mass, radius, friction, angle)
 
         if st.sidebar.button("Запустить симуляцию"):
-            trajectory = BodyTrajectory(mass=mass, radius=radius, friction=friction, angle=angle)
+            trajectory = BodyTrajectory(
+                mass=mass, radius=radius, friction=friction, angle=angle
+            )
             st.write("Поиск минимальной начальной скорости...")
             try:
                 trajectory.find_min_initial_velocity()
                 display_information(trajectory.v0_min)
 
-                x_full, y_full, x_flight, y_flight, v_final, start_point, end_point = trajectory.calculate_trajectory()
+                x_full, y_full, x_flight, y_flight, v_final, start_point, end_point = (
+                    trajectory.calculate_trajectory()
+                )
                 st.write("Создание анимации...")
-                animate_trajectory(x_full, y_full, x_flight, y_flight, start_point, end_point, trajectory.v0_min)
+                animate_trajectory(
+                    x_full,
+                    y_full,
+                    x_flight,
+                    y_flight,
+                    start_point,
+                    end_point,
+                    trajectory.v0_min,
+                )
             except ValueError as e:
                 st.error(f"Ошибка: {e}")
+
 
 if __name__ == "__main__":
     main()
