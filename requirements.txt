@@ -1,0 +1,6 @@
+streamlit
+matplotlib
+numpy
+scipy
+stqdm
+streamlit_extras
