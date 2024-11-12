@@ -7,6 +7,9 @@ from web.interface import render_sidebar, display_information, display_parameter
 def main():
     st.set_page_config(page_title="Моделирование", page_icon="📘")
 
+    logo_path = "img/logo.png"
+    st.sidebar.image(logo_path)
+
     page = st.sidebar.selectbox("Выберите страницу:", ["Теория", "Симуляция"])
 
     if page == "Теория":
@@ -69,14 +72,14 @@ def main():
 
 		и работа силы трения на всём пути по дуге:
 		$$
-		W_{\\text{тр}} = \mu * m * g * \cos(a) * R*a
+		W_{\\text{тр}} = \int_0^{a} \mu \, m \, g \, \cos(a) \, R \, da
 		$$
 
 		#### 4. Итоговая формула для начальной скорости
 
 		Теперь подставим выражения для $E_п$ и $W_{\\text{тр}}$ в формулу для $v_0$:
 		$$
-		v_0 = \sqrt{\\frac{2 * (m*g*R*(1 - \cos(a)) + \mu * m * g * \cos(a) * R*a)}{m}}
+		v_0 = \sqrt{\\frac{2 * (m*g*R*(1 - \cos(a)) + \mu * m * g * \sin(a) * R*a)}{m}}
 		$$
     """
         )
